@@ -8,14 +8,19 @@ from django.core.management.base import BaseCommand
 
 
 class Command(BaseCommand):
-
     help: str = "Greets specified user"
 
     def add_arguments(self, parser):
-        parser.add_argument("name", type=str, help="Specify name")
+        parser.add_argument(
+            "-n",
+            "--name",
+            dest="name",
+            type=str,
+            help="Specify name",
+        )
 
     def handle(self, *args, **kwargs):
-        name: str = kwargs.get("name")
+        name: str = kwargs.get("name") if kwargs.get("name") else "Sir"
         greeting_message: str = self.get_greeting_message()
         msg = f"Hello {name}, {greeting_message}"
         self.stdout.write(self.style.SUCCESS(msg))
